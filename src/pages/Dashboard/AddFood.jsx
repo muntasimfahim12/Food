@@ -27,7 +27,7 @@ export default function AddFood() {
     setLoading(true);
     try {
       const token = localStorage.getItem("access-token");
-      const res = await fetch(`${import.meta.env.VITE_NEXT_API_URL}/foods`, {
+      const res = await fetch(`${import.meta.env.VITE_NEXT_API_URL}/api/foods`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

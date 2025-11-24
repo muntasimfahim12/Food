@@ -16,7 +16,7 @@ const OrderNow = () => {
 
   // Fetch food details
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_NEXT_API_URL}/foods/${id}`)
+    fetch(`${import.meta.env.VITE_NEXT_API_URL}/api/foods/${id}`)
       .then((res) => {
         if (!res.ok) throw new Error("Food not found");
         return res.json();
@@ -50,7 +50,7 @@ const OrderNow = () => {
     };
 
     try {
-      const res = await fetch(`${import.meta.env.VITE_NEXT_API_URL}/orders`, {
+      const res = await fetch(`${import.meta.env.VITE_NEXT_API_URL}/api/orders`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

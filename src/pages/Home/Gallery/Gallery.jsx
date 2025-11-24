@@ -11,7 +11,7 @@ const Gallery = () => {
   useEffect(() => {
     setLoading(true);
     setError("");
-    let url = `${import.meta.env.VITE_NEXT_API_URL}/foods`;
+    let url = `${import.meta.env.VITE_NEXT_API_URL}/api/foods`;
     if (category !== "all") url += `?category=${category}`;
 
     fetch(url)

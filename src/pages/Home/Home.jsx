@@ -8,7 +8,7 @@ const Home = () => {
   const [foods, setFoods] = useState([]);
 
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_NEXT_API_URL}/foods`)
+    fetch(`${import.meta.env.VITE_NEXT_API_URL}/api/foods`)
       .then((res) => res.json())
       .then((data) => setFoods(data))
       .catch((err) => console.error("Error fetching foods:", err));
