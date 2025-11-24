@@ -25,7 +25,7 @@ const Login = () => {
       const userInfo = { email: loggedUser.email };
      
 
-      const res = await fetch(`${import.meta.env.VITE_NEXT_API_URL}/api/jwt`, {
+      const res = await fetch(`${import.meta.env.VITE_NEXT_API_URL}/jwt`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(userInfo),

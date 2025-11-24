@@ -15,7 +15,7 @@ const MyProfile = () => {
       try {
         setLoading(true);
         const res = await fetch(
-          `${import.meta.env.VITE_NEXT_API_URL}/api/orders?email=${user.email}`,
+          `${import.meta.env.VITE_NEXT_API_URL}/orders?email=${user.email}`,
           {
             headers: {
               authorization: `Bearer ${localStorage.getItem("access-token")}`,
@@ -48,7 +48,7 @@ const MyProfile = () => {
 
     try {
       setCanceling(id);
-      const res = await fetch(`${import.meta.env.VITE_NEXT_API_URL}/api/orders/${id}`, {
+      const res = await fetch(`${import.meta.env.VITE_NEXT_API_URL}/orders/${id}`, {
         method: "DELETE",
         headers: {
           authorization: `Bearer ${localStorage.getItem("access-token")}`,
