@@ -9,11 +9,15 @@ const Login = () => {
   const location = useLocation();
   const [showPassword, setShowPassword] = useState(false);
   const [toast, setToast] = useState(""); // Toast message state
+  const [isLoading, setIsLoading] = useState(false); // Loading state
 
   const from = location.state?.from?.pathname || "/";
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setToast("");
+    setIsLoading(true);
+
     const form = e.target;
     const email = form.email.value;
     const password = form.password.value;
@@ -23,7 +27,6 @@ const Login = () => {
       const loggedUser = result.user;
 
       const userInfo = { email: loggedUser.email };
-     
 
       const res = await fetch(`${import.meta.env.VITE_NEXT_API_URL}/jwt`, {
         method: "POST",
@@ -35,28 +38,36 @@ const Login = () => {
       const data = await res.json();
       localStorage.setItem("access-token", data.token);
 
-      navigate(from, { replace: true });
+      // Success toast
+      setToast("✅ Successfully Logged In! Redirecting...");
+      setTimeout(() => setToast(""), 3000);
+
+      // Redirect to previous page
+      setTimeout(() => navigate(from, { replace: true }), 1500);
     } catch (error) {
       console.error("Login Error:", error);
-      setToast("❌ Invalid email or password"); // Set toast message
-      setTimeout(() => setToast(""), 4000); // Hide after 4s
+      setToast("❌ Invalid email or password"); 
+      setTimeout(() => setToast(""), 4000);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
-    <div className="relative flex items-center justify-center min-h-screen bg-gradient-to-r from-black via-blue-300 to-red-200">
+    <div className="relative flex items-center justify-center min-h-screen bg-gradient-to-tr from-purple-800 via-black to-indigo-700">
+      
       {/* Toast Notification */}
       {toast && (
-        <div className="absolute top-5 right-5 bg-red-500 text-white px-4 py-2 rounded-lg shadow-lg animate-fade-in-out">
+        <div className="absolute top-5 right-5 bg-neutral-800 text-white px-4 py-2 rounded-xl shadow-lg animate-fade-in-out border border-pink-500">
           {toast}
         </div>
       )}
 
       <div className="w-full max-w-md p-8 bg-neutral-900/90 backdrop-blur-md rounded-3xl shadow-2xl border border-neutral-700 animate-fade-in">
-        <h1 className="text-4xl font-extrabold text-red-500 mb-6 text-center">Welcome Back</h1>
+        <h1 className="text-4xl font-extrabold text-pink-400 mb-6 text-center drop-shadow-md">Welcome Back</h1>
         <p className="text-center text-neutral-300 mb-6">
           Login to your account or{" "}
-          <Link to="/signup" className="text-pink-500 hover:text-pink-400 font-semibold">
+          <Link to="/signup" className="text-pink-500 hover:text-pink-400 font-semibold transition-colors">
             Sign Up
           </Link>
         </p>
@@ -69,7 +80,7 @@ const Login = () => {
               name="email"
               id="email"
               placeholder="you@example.com"
-              className="w-full px-4 py-3 border border-neutral-700 rounded-xl bg-neutral-800 text-neutral-200 placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-pink-500 transition"
+              className="w-full px-4 py-3 border border-neutral-700 rounded-xl bg-neutral-800 text-neutral-200 placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-pink-500 transition-all duration-300"
               required
             />
           </div>
@@ -81,7 +92,7 @@ const Login = () => {
               name="password"
               id="password"
               placeholder="••••••••"
-              className="w-full px-4 py-3 border border-neutral-700 rounded-xl bg-neutral-800 text-neutral-200 placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-pink-500 transition"
+              className="w-full px-4 py-3 border border-neutral-700 rounded-xl bg-neutral-800 text-neutral-200 placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-pink-500 transition-all duration-300"
               required
             />
             <span
@@ -94,15 +105,16 @@ const Login = () => {
 
           <button
             type="submit"
-            className="w-full py-3 bg-pink-500 hover:bg-pink-600 text-white font-semibold rounded-2xl shadow-lg transition transform hover:scale-105"
+            disabled={isLoading}
+            className="w-full py-3 bg-pink-500 hover:bg-pink-600 text-white font-semibold rounded-2xl shadow-lg transition transform hover:scale-105 disabled:opacity-60 disabled:cursor-not-allowed"
           >
-            Sign In
+            {isLoading ? "Signing In..." : "Sign In"}
           </button>
         </form>
 
         <div className="mt-6 text-center text-neutral-400 text-sm">
           Don't have an account?{" "}
-          <Link to="/signup" className="text-pink-500 hover:text-pink-400 font-semibold">
+          <Link to="/signup" className="text-pink-500 hover:text-pink-400 font-semibold transition-colors">
             Create one
           </Link>
         </div>

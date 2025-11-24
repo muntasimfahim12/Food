@@ -99,12 +99,13 @@ export default function Navbar() {
                 >
                   <img
                     src={
-                      user.photoURL ||
-                      `https://ui-avatars.com/api/?background=random&color=fff&name=${encodeURIComponent(
-                        user.displayName || "User"
-                      )}`
+                      user.photoURL
+                        ? user.photoURL // যদি ইউজারের profile picture থাকে
+                        : `https://ui-avatars.com/api/?background=random&color=fff&name=${encodeURIComponent(
+                            user.displayName || "User"
+                          )}` // না থাকলে initials generate হবে
                     }
-                    alt="avatar"
+                    alt={user.displayName || "User"}
                     className="w-10 h-10 rounded-full border border-neutral-700 shadow-sm"
                   />
                 </button>

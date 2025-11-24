@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { AuthContext } from "../../providers/AuthProviders";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 
 const SignUp = () => {
@@ -11,10 +11,13 @@ const SignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [success, setSuccess] = useState("");
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
     setError("");
+    setSuccess("");
     setIsLoading(true);
 
     if (!email || !password) {
@@ -27,6 +30,12 @@ const SignUp = () => {
       .then((result) => {
         console.log("User created:", result.user);
         setIsLoading(false);
+        setSuccess("Account created successfully! Redirecting to login...");
+        
+        // Redirect after 2 seconds
+        setTimeout(() => {
+          navigate("/login");
+        }, 2000);
       })
       .catch((error) => {
         console.error("Error creating user:", error.message);
@@ -89,9 +98,17 @@ const SignUp = () => {
             </span>
           </div>
 
+          {/* Error Message */}
           {error && (
             <div className="p-3 text-red-700 bg-red-100 border border-red-200 rounded-md text-sm">
               {error}
+            </div>
+          )}
+
+          {/* Success Message */}
+          {success && (
+            <div className="p-3 text-green-700 bg-green-100 border border-green-200 rounded-md text-sm">
+              {success}
             </div>
           )}
 
